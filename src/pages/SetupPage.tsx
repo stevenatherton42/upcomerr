@@ -3,16 +3,32 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConnectionSettings } from "@/components/settings/ConnectionSettings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Home, Settings, Server } from "lucide-react";
 
 export default function SetupPage() {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen p-4 bg-jellyseerr-background">
       <div className="max-w-4xl mx-auto mt-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 text-accent">Upcomerr Setup</h1>
-          <p className="text-jellyseerr-muted">
-            Configure your Radarr and Sonarr connections to get started
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 text-accent">Upcomerr Setup</h1>
+            <p className="text-jellyseerr-muted">
+              Configure your Radarr and Sonarr connections to get started
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 px-3 py-1 bg-jellyseerr-card border border-jellyseerr-border rounded-md">
+              <Server size={16} className="text-accent" />
+              <span className="text-xs font-medium text-jellyseerr-muted">Initial Setup</span>
+            </div>
+            <div className="h-[2px] w-6 bg-jellyseerr-border"></div>
+            <div className="flex items-center space-x-1 px-3 py-1 bg-jellyseerr-border/20 rounded-md">
+              <Home size={16} className="text-jellyseerr-muted" />
+              <span className="text-xs font-medium text-jellyseerr-muted">Dashboard</span>
+            </div>
+          </div>
         </div>
         
         <Card className="bg-jellyseerr-card border-jellyseerr-border mb-8">

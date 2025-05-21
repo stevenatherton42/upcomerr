@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSettings } from "@/contexts/SettingsContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function ConnectionSettings() {
   const { settings, updateSettings, testRadarrConnection, testSonarrConnection, saveSettings } = useSettings();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState({
     radarr: false,
     sonarr: false,
@@ -39,6 +41,8 @@ export function ConnectionSettings() {
     if (canSave) {
       saveSettings();
       updateSettings({ setupCompleted: true });
+      // Navigate to the dashboard after successful setup
+      navigate("/dashboard");
     }
     
     setLoading(prev => ({ ...prev, save: false }));
