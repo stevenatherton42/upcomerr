@@ -1,3 +1,4 @@
+
 # Welcome to your Lovable project
 
 ## Project info
@@ -36,19 +37,41 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Docker Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+You can deploy this application using Docker and Docker Compose. Below is an example `docker-compose.yml` configuration:
 
-**Use GitHub Codespaces**
+```yaml
+version: '3.8'
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+services:
+  upcomerr:
+    build: .
+    container_name: upcomerr
+    restart: unless-stopped
+    ports:
+      - "3000:80"  # Map container port 80 to host port 3000
+    volumes:
+      - upcomerr_data:/app/data  # Persist settings data
+
+volumes:
+  upcomerr_data:  # Volume for persistent data storage
+```
+
+To deploy with Docker Compose:
+
+1. Save this configuration as `docker-compose.yml`
+2. Run `docker-compose up -d` to start the container
+3. Access the application at `http://localhost:3000`
+
+To deploy with Portainer:
+1. Navigate to Stacks → Add Stack
+2. Choose "Web editor" as build method
+3. Paste the above YAML
+4. Name your stack "upcomerr" (or preferred name)
+5. Click "Deploy the stack"
+
+**Note:** For this Docker setup to work properly, you'll need to add a Dockerfile to your repository.
 
 ## What technologies are used for this project?
 
