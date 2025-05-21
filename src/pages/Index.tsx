@@ -1,14 +1,50 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useSettings } from "@/contexts/SettingsContext";
+import DashboardPage from "./DashboardPage";
+import LoginPage from "./LoginPage";
+import SetupPage from "./SetupPage";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+  const { currentUser, loading: authLoading } = useAuth();
+  const { settings, loading: settingsLoading } = useSettings();
+  const navigate = useNavigate();
+
+  // Handle first-time setup or direct users to the appropriate page
+  useEffect(() => {
+    if (!authLoading && !settingsLoading) {
+      // If user is logged in and setup is not completed, redirect to setup
+      if (currentUser && !settings.setupCompleted) {
+        navigate("/setup");
+      }
+    }
+  }, [currentUser, settings.setupCompleted, authLoading, settingsLoading, navigate]);
+  
+  // Show loading state
+  if (authLoading || settingsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-jellyseerr-background">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-jellyseerr-muted">Loading...</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  
+  // If not logged in, show login page
+  if (!currentUser) {
+    return <LoginPage />;
+  }
+  
+  // If logged in but setup not completed, show setup page
+  if (!settings.setupCompleted) {
+    return <SetupPage />;
+  }
+  
+  // Otherwise show the dashboard
+  return <DashboardPage />;
 };
 
 export default Index;
